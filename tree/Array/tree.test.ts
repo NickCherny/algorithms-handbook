@@ -30,5 +30,16 @@ describe('Given Tree with Array as a storage', () => {
 
         expect(values.join('->')).toBe('20->2->10->2->5');
     });
+
+    it('And add new value, should match', () => {
+        treeWithNumbers.addNode(3, 0);
+        const values: unknown[] = [];
+        treeWithNumbers.treversPreorder(0, v => values.push(v));
+        expect(values.join('->')).toBe('20->2->3->10->2->5');
+    });
+
+    it('And find value, should return correct index', () => {
+        expect(treeWithNumbers.find(10)).toBe(2);
+    });
 })
 

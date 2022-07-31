@@ -4,7 +4,7 @@ import { Tree } from './Tree';
 const fnode = new NumberNode(20);
 const tree = new Tree(fnode);
 
-beforeAll(() => {
+beforeEach(() => {
     fnode.leftChild = new NumberNode(2);
     fnode.rightChild = new NumberNode(10);
     fnode.rightChild.leftChild = new NumberNode(2);
@@ -37,5 +37,16 @@ describe('Given Tree with Array as a storage', () => {
 
         expect(values.join('->')).toBe('20->2->10->2->5');
     });
+
+    it('And add new value, should match string', () => {
+        fnode.addNode(3);
+        const values: unknown[] = [];
+        tree.treversPreorder(fnode, ({value }) => values.push(value));
+        expect(values.join('->')).toBe('20->2->3->10->2->5');
+    });
+
+    it('And find value, should return correct node', () => {
+        expect(fnode.findNode(10)).toMatchObject(fnode.rightChild as any)
+    })
 })
 

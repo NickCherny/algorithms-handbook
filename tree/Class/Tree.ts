@@ -37,4 +37,8 @@ export class Tree implements ITree {
             if(node?.rightChild) children.enqueue(node.rightChild);
         }
     }
+
+    find(value: unknown): unknown {
+        return this.root.findNode(value);
+    }
 }

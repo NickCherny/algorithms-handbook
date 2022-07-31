@@ -7,6 +7,8 @@ type TreversHandler = (value: unknown) => void;
 
 type Tree = {
     store: TreeStore<number>;
+    addNode(value: number, index?: number): void;
+    find(value, index?: number): number;
     treversPreorder(index: number, handler: TreversHandler): void;
     treversInorder(index: number, handler: TreversHandler): void;
     treversPostorder(index: number, handler: TreversHandler): void;
@@ -57,6 +59,36 @@ export const treeWithNumbers: Tree = {
 
             const rci = getRightChildIndex(index);
             if (this.store[rci]) children.enqueue(rci);
+        }
+    },
+
+    addNode(value, index = 0) {
+        if (value < this.store[index]) {
+            const leftIndex = getLeftChildIndex(index);
+            if (!this.store[leftIndex]) {
+                this.store[leftIndex] = value;
+            } else {
+                this.addNode(value, leftIndex);   
+            }
+        } else {
+            const rightIndex = getRightChildIndex(index);
+            if (!this.store[rightIndex]) {
+                this.store[rightIndex] = value;
+            } else {
+                this.addNode(value, rightIndex);
+            }
+        }
+    },
+
+    find(value, index = 0) {
+        if (this.store[index] === value) return index;
+        
+        if (this.store[index] < value) {
+            const leftIndex = getLeftChildIndex(index);
+            return this.store[leftIndex] ? this.find(value, this.store[leftIndex]) : undefined;
+        } else {
+            const rightIndex = getRightChildIndex(index); 
+            return this.store[rightIndex] ? this.find(value, rightIndex) : undefined;
         }
     }
 }
